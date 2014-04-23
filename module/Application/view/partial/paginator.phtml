@@ -1,0 +1,23 @@
+<?php if ($this->pageCount): ?>
+        <ul class="pagination">
+            <li <?php echo!isset($this->previous) ? 'class="disabled"' : ''; ?>>
+                <a data-page="<?php echo $this->first?>" href="<?php echo $this->url($this->route); ?>?page=<?php echo $this->first; ?>">&laquo;</a></li>
+            <li <?php echo!isset($this->previous) ? 'class="disabled"' : ''; ?>>
+                <a data-page="<?php echo $this->previous?>" href="<?php $this->url($this->route); ?>?page=<?php echo $this->previous; ?>">&lsaquo;</a></li>
+
+            <!-- Numbered page links -->
+            <?php foreach ($this->pagesInRange as $page): ?>
+                <li <?php echo $page == $this->current ? 'class="active"' : ''; ?>>
+                    <a data-page="<?php echo $page?>" href="<?php echo $this->url($this->route); ?>?page=<?php echo $page; ?>">
+                        <?php echo $page; ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+            <!-- Next page link -->
+            <li <?php echo!isset($this->next) ? 'class="disabled"' : ''; ?>>
+                <a data-page="<?php echo $this->next?>" href="<?php echo $this->url($this->route); ?>?page=<?php echo $this->next; ?>">&rsaquo;</a></li>
+            <!-- Last page link -->
+            <li <?php echo!isset($this->next) ? 'class="disabled"' : ''; ?>>
+                <a data-page="<?php echo $this->last?>" href="<?php echo $this->url($this->route); ?>?page=<?php echo $this->last; ?>">&raquo;</a></li>
+        </ul>
+<?php endif; ?>
