@@ -4,6 +4,10 @@ namespace Album\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\ArrayAdapter;
+use Zend\View\Helper\PaginationControl;
+use Zend\Cache\StorageFactory;
 
 use Album\Model\Album;
 use Album\Form\AlbumForm;
@@ -20,6 +24,29 @@ class AlbumController extends AbstractActionController
 		$paginator->setCurrentPageNumber((int)$this->params()->fromQuery('page', 1));
 		//definir o número de itens por página para 10
 		$paginator->setItemCountPerPage(10);
+
+		$cache = StorageFactory::factory(array( 
+		    'adapter' => array( 
+		        'name' => 'filesystem', 
+		        'options' => array( 
+		            'ttl'       => 720000,    // cache with 200 hours 
+		            //'cache_dir' => getcwd() . '/data/cache', 
+		        ), 
+		    ), 
+		    'plugins' => array( 
+		        'exception_handler' => array('throw_exceptions' => false), 
+		    ), 
+		));
+
+    	//$cache->setItem('a', 'b');
+
+        $paginator::setCache($cache);
+
+        print_r($paginator->getPageItemCache());
+
+		// Paginator::setDefaultScrollingStyle('Sliding');
+		// PaginationControl::setDefaultViewPartial('partial/paginator.phtml');
+
 		return new ViewModel(array(
 			'paginator' => $paginator,
 			//'albums' => $this->getAlbumTable()->fetchAll(),
@@ -55,6 +82,29 @@ class AlbumController extends AbstractActionController
 	public function deleteAction()
 	{
 
+	}
+
+
+	public function listarAction()
+	{
+		$array = array(
+			'Pessoa1' => array(
+				'Nome' => 'Pedro Silva',
+				'Endereco' => 'Rua 1',
+				'Idade' => 30
+			),
+			'Pessoa2' => array(
+				'Nome' => 'Joao Pereira',
+				'Endereco' => 'Rua 2',
+				'Idade' => 20
+			)
+		);
+
+		$paginator = new Paginator(new ArrayAdapter($array));
+
+		$view = new ViewModel();
+		$view->setVariable('paginator', $paginator);
+		return $view;
 	}
 
 	public function getAlbumTable()
