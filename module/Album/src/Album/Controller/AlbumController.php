@@ -9,6 +9,8 @@ use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\View\Helper\PaginationControl;
 use Zend\Cache\StorageFactory;
 
+use Zend\Stdlib\Parameters;
+
 use Album\Model\Album;
 use Album\Form\AlbumForm;
 
@@ -51,6 +53,40 @@ class AlbumController extends AbstractActionController
 			'paginator' => $paginator,
 			//'albums' => $this->getAlbumTable()->fetchAll(),
 		));
+	}
+
+	public function forwardAction()
+	{
+		$datas = $this->prg(null);
+		print_r($datas);die;
+		return $this->plugin('forward')->dispatch('Album\Controller\Album', array('action' => 'index'));
+	}
+
+	public function redirectAction()
+	{
+		return $this->plugin('redirect')->toRoute('home');
+	}
+
+	public function toUrlAction()
+	{
+		return $this->plugin('redirect')->toUrl('http://www.zend.com/fr')->setStatusCode(301);
+	}
+
+	public function fromRouteAction()
+	{
+		$home = $this->plugin('url')->fromRoute('home');
+		$homeCanonical = $this->plugin('url')->fromRoute('home', array(), array('force_canonical' => true));
+
+		return $homeCanonical;
+	}
+
+	public function testeRouteAction()
+	{
+		$this->request->setMethod('POST');
+		$this->request->setPost(new Parameters(array(
+			'post_key' => 'value',
+		)));
+		return $this->prg('/album/forward', true);
 	}
 
 	public function addAction()
@@ -114,5 +150,41 @@ class AlbumController extends AbstractActionController
 			$this->albumTable = $sm->get('Album\Model\AlbumTable');
 		}
 		return $this->albumTable;
+	}
+
+	public function ex1Action()
+	{
+		$view = new ViewModel();
+
+		$view1 = new ViewModel(array('val' => 'teste layout'));
+		$view1->setTemplate('album/album/teste1.phtml');
+
+		$view->addChild($view1, 'valor1');
+
+		return $view;
+	}
+
+	public function ex2Action()
+	{
+
+		$view = new ViewModel(array('teste' => 'Maria'));
+
+		$view->setCaptureTo('content');
+
+		return $view;
+	}
+
+	public function ex3Action()
+	{
+		$response = $this->getResponse();
+		$view = new ViewModel(array('message' => 'estudos'));
+
+		$view->setTerminal(false);
+		$view->setTemplate('album/album/ex2.phtml');
+		$html = $this->getServiceLocator()->get('ViewRenderer')->render($view);
+
+		$response->setStatusCode($response::STATUS_CODE_200);
+		$response->setContent($html);
+		return $response;
 	}
 }
