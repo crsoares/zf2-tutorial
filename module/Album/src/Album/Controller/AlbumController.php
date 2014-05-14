@@ -4,10 +4,14 @@ namespace Album\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\View\Helper\PaginationControl;
 use Zend\Cache\StorageFactory;
+
+use Zend\View\Renderer\PhpRenderer;
+use Zend\View\Resolver;
 
 use Zend\Stdlib\Parameters;
 
@@ -186,5 +190,74 @@ class AlbumController extends AbstractActionController
 		$response->setStatusCode($response::STATUS_CODE_200);
 		$response->setContent($html);
 		return $response;
+	}
+
+	public function ex4Action()
+	{
+		$layout = $this->layout();
+		$sidebarView = new ViewModel();
+		$sidebarView->setTemplate('album/album/sidebar.phtml');
+		$layout->addChild($sidebarView, 'sidebar');
+
+		return new ViewModel();
+	}
+
+	public function ex5Action()
+	{
+		$layout = $this->layout();
+		$layout->setTemplate('layout/novoLayout.phtml');
+
+		$value = 'muda layout';
+
+		return new ViewModel(array(
+			'value' => $value
+		));
+	}
+
+	public function ex6Action()
+	{
+		$this->layout('layout/novoLayout.phtml');
+
+		$layout = $this->layout();
+		$disqusApiKey = false;
+		if(isset($layout->disqusApiKey)) {
+			$disqusApiKey = $layout->disqusApiKey;
+		}
+
+		$viewModel = new JsonModel(array('teste' => 'novo teste'));
+
+		$this->layout()->footer = 'variavel de layout';
+
+		return $viewModel;
+	}
+
+	public function ex7Action()
+	{
+		$renderer = new PhpRenderer();
+
+		$resolver = new Resolver\AggregateResolver();
+
+		$renderer->setResolver($resolver);
+
+		$map = new Resolver\TemplateMapResolver(array(
+			//'layout/layout' => getcwd() . '/view/layout.phtml',
+			'album/album' => getcwd() . '/view/album/album/ex7.phtml'
+		));
+
+		$stack = new Resolver\TemplatePathStack(array(
+			'script_paths' => array(
+				getcwd() . '/view'
+			)
+		));
+
+		$viewModel = new ViewModel();
+		$viewModel->setTemplate('album/album')
+				  ->setVariable('teste', 'novo layout');
+
+		$resolver->attach($map)
+			     ->attach($stack);
+
+	    $renderer->render($viewModel);
+
 	}
 }
