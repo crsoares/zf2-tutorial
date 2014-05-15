@@ -1,0 +1,9 @@
+<?php
+
+$gravatar = $this->gravatar('email@exemple.com');
+
+$attr = array(
+	'class' => 'gravatarcls'
+);
+
+echo $gravatar->setAttribs($attr)->getImgTag();

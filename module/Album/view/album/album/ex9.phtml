@@ -1,0 +1,7 @@
+<table>
+	<?php foreach($books as $book): ?>
+			<tr style="background-color: <?php echo $this->cycle(array('#F0F0F0', '#FFF'))->next(); ?>">
+				<td><?php echo $book; ?></td>
+			</tr>
+	<?php endforeach;?>
+</table>

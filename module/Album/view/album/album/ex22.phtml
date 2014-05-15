@@ -1,0 +1,12 @@
+<?php 
+
+$email = 'email@exemple.com';
+$settings = array(
+	'default_img' => \Zend\View\Helper\Gravatar::DEFAULT_MM
+);
+
+$attr = array(
+	'class' => 'teste'
+);
+
+echo $this->gravatar($email, $settings, $attr);

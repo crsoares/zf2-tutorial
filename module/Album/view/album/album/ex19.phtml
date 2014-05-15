@@ -1,0 +1,10 @@
+<?php
+
+$gravatar = $this->gravatar();
+
+$gravatar->setEmail('crysthiano@example.com');
+$gravatar->setImgSize(40);
+$gravatar->setDefaultImg(\Zend\View\Helper\Gravatar::DEFAULT_MM);
+$gravatar->setRating(\Zend\View\Helper\Gravatar::RATING_G);
+$gravatar->setSecure(true);
+echo $gravatar->getImgTag();

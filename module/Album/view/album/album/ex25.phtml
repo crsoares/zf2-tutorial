@@ -1,0 +1,11 @@
+<?php
+
+$template = '<div class="book">{{:title}}</div>';
+
+$this->headScript()->appendScript(
+	$template,
+	'text/x-jquery-tmpl',
+	array('id' => 'tmpl-book', 'noescape' => true)
+);
+
+echo $this->headScript();

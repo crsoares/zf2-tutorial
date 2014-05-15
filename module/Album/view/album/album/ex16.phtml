@@ -1,0 +1,5 @@
+<?php echo $this->flashMessenger()
+				->setMessageOpenFormat('<div%s><p>')
+				->setMessageSeparatorString('</p><p>')
+				->setMessageCloseString('</p></div>')
+				->render('success', array('alert', 'alert-success')); ?>

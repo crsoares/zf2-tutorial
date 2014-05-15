@@ -260,4 +260,128 @@ class AlbumController extends AbstractActionController
 	    $renderer->render($viewModel);
 
 	}
+
+	public function ex8Action()
+	{
+		$nome = "<p>Helpers</p>";
+		$view = new PhpRenderer();
+		/*$pluginManager = $view->getHelperPluginManager();
+		$helper = $pluginManager->get('escapehtml');*/
+
+		//$helper = $view->plugin('escapehtml');
+
+		$helper = $view->escapehtml($nome);
+
+		//$val = $helper($nome);
+
+		return array('val' => $helper);
+	}
+
+	public function ex9Action()
+	{
+		$books = array('php', 'html', 'css', 'javascript');
+
+		return array('books' => $books);
+	}
+
+	public function ex10Action()
+	{
+		$books = array('php', 'css', 'html5', 'javascript', 'ajax');
+
+		return array('books' => $books);
+	}
+
+	public function ex11Action()
+	{
+		$books = array('php', 'html', 'javascript', 'zend framework 2', 'html5', 'css', 'flex');
+
+		return array('books' => $books);
+	}
+
+	public function ex12Action()
+	{
+		$books = array('php', 'html5', 'css', 'javascript', 'css3', 'flex', 'flash');
+
+		return new ViewModel(array('books' => $books));
+	}
+
+	public function ex13Action()
+	{
+		$doctypeHelper = new \Zend\View\Helper\Doctype();
+		$doctypeHelper->setDoctype('XHTML1_STRICT');
+		echo $doctypeHelper->getDoctype();die;
+	}
+
+	public function ex14Action()
+	{
+		$doctypeHelper = new PhpRenderer();
+		$doctypeHelper->doctype()->setDoctype('HTML5');
+		echo $doctypeHelper->doctype()->getDoctype();die;
+	}
+
+	public function ex15Action()
+	{
+		$mensagem = $this->flashMessenger()->addErrorMessage('teste mensagem!!');
+
+		//$mensagem = $this->flashMessenger()->addSuccessMessage('teste success');
+
+		return array('mensagem' => $mensagem);
+	}
+
+	public function ex16Action()
+	{
+		$mensagem = $this->flashMessenger()->addSuccessMessage('teste messagem');
+
+		return new ViewModel(array('mensagem' => $mensagem));
+	}
+
+	public function ex17Action()
+	{
+		$mensagem = $this->flashMessenger()->addMessage('nova msg')
+										   ->addInfoMessage('nova msg')
+										   ->addSuccessMessage('nova msg')
+										   ->addErrorMessage('nova msg');
+
+		return new ViewModel(array('mensagem' => $mensagem));
+	}
+
+	public function ex18Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex19Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex20Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex21Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex22Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex23Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex24Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex25Action()
+	{
+		return new ViewModel();
+	}
 }
