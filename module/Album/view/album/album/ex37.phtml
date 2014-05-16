@@ -1,0 +1,16 @@
+<?php
+
+$nomes = array(
+	'Pedro',
+	'Paulo',
+	'Ana',
+	'Maria'
+);
+?>
+<?php $this->placeholder('foo')->captureStart('SET', 'data'); ?>
+<?php foreach($nomes as $nome): ?>
+		<h5><?php echo $nome; ?></h5>
+<?php endforeach; ?>
+<?php $this->placeholder('foo')->captureEnd(); ?>
+
+<?php echo $this->placeholder('foo')->data; ?>

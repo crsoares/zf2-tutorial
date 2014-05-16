@@ -1,0 +1,20 @@
+<?php 
+
+$items = array(
+	'Nível um, número um',
+	array(
+		'Nível dois, número um',
+		'Nível dois, número dois',
+		array(
+			'O nível três, número um'
+		),
+		'Nível dois, número três'
+	),
+	'Nível um, número dois'
+);
+
+$attribs = array(
+	'class' => 'teste'
+);
+
+echo $this->htmlList($items, false, $attribs);

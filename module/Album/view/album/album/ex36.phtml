@@ -1,0 +1,15 @@
+<?php
+
+$data = array(
+	'Maria',
+	'Paulo',
+	'Pedro'
+);
+
+$this->placeholder('foo')->teste = $data;
+
+echo $this->placeholder('foo')->teste[0] . '<br />';
+
+$val = $this->placeholder('foo');
+
+print_r($val);

@@ -1,0 +1,12 @@
+<?php
+
+$items = array(
+	'Nível um, número <strong>um</strong>',
+	'Nível um, número <em>dois</em>'
+);
+
+//Fuja de saída (padrão)
+echo $this->htmlList($items);
+
+//Não fugir de saída
+echo $this->htmlList($items, false, false, false);

@@ -1,0 +1,12 @@
+<?php
+
+$model = array(
+	array('key' => 'mamifero', 'value' => 'camelo'),
+	array('key' => 'passaro', 'value' => 'pinguim'),
+	array('key' => 'reptil', 'value' => 'aspide'),
+	array('key' => 'peixe', 'value' => 'linguado')
+);
+?>
+
+<dl>
+	<?php echo $this->partialLoop('partial/partialLoop.phtml', $model);

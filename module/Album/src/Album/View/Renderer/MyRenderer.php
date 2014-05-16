@@ -17,7 +17,7 @@ class MyRenderer extends PhpRenderer
 
 	public function setEncoding($encoding)
 	{
-		$thid->encoding = $encoding;
+		$this->encoding = $encoding;
 		return $this;
 	}
 

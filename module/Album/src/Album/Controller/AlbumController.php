@@ -9,6 +9,7 @@ use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\View\Helper\PaginationControl;
 use Zend\Cache\StorageFactory;
+use Zend\Json\Json;
 
 use Zend\View\Renderer\PhpRenderer;
 use Zend\View\Resolver;
@@ -397,6 +398,69 @@ class AlbumController extends AbstractActionController
 
 	public function ex28Action()
 	{
+		return new ViewModel();
+	}
+
+	public function ex29Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex30Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex31Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex32Action()
+	{
+		$val = array(
+			'val1' => 'teste1',
+			'val2' => 'teste2'
+		);
+		return array('val' => Json::encode($val));
+	}
+
+	public function ex33Action()
+	{
+		$view = new ViewModel(array('renderer' => new PhpRenderer()));
+		return $view;
+	}
+
+	public function ex34Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex35Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex36Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex37Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex38Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex39Action()
+	{
+		$view = $this->getServiceLocator()->get('ViewRenderer');
+		$helper = new \Album\View\Helper\SpecialPurpose();
+		$view->getHelperPluginManager()->setService('specialpurpose', $helper);
 		return new ViewModel();
 	}
 }

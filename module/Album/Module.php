@@ -94,9 +94,18 @@ class Module implements ConfigProviderInterface,
 					//Como dito antes, nós só queremos implementar o método) getEncoding (, para que possamos usar
 					//Zend\View\Strategy\PhpRendererStrategy e apenas fornecer nosso renderizador personalizado para ele.
 					$myRenderer = $serviceManager->get('MyCustomRenderer');
-					$strategy = PhpRendererStrategy($myRenderer);
+					$strategy = new PhpRendererStrategy($myRenderer);
 					return $strategy;
 				}
+			)
+		);
+	}
+
+	public function getViewHelperConfig()
+	{
+		return array(
+			'invokables' => array(
+				'specialpurpose' => 'Album\View\Helper\SpecialPurpose'
 			)
 		);
 	}
@@ -105,10 +114,40 @@ class Module implements ConfigProviderInterface,
 	{
 		//Registrar um evento render
 		$app = $e->getParam('application');
+		$app->getEventManager()->attach('render', array($this, 'setLayoutTitle'));
+	}
+
+	public function setLayoutTitle(MvcEvent $e)
+	{
+		$matches = $e->getRouteMatch();
+		$action = $matches->getParam('action');
+		$controller = $matches->getParam('controller');
+		$module = __NAMESPACE__;
+		$siteName = 'Zend Framework';
+
+		//Obtendo a visão gerente ajudante do gerente de serviços de aplicação
+		$viewHelperManager = $e->getApplication()->getSErviceManager()->get('viewHelperManager');
+
+		$headTitleHelper = $viewHelperManager->get('headTitle');
+
+		//Obtendo o ajudante headTitle do gerente view helper
+		$headTitleHelper->setSeparator(' - ');
+
+		//Definir o nome da ação, controlador, módulo e site como segmentos de título
+		$headTitleHelper->append($action);
+		$headTitleHelper->append($controller);
+		$headTitleHelper->append($module);
+		$headTitleHelper->append($siteName);
+	}
+
+	/*public function onBootstrap(MvcEvent $e)
+	{
+		//Registrar um evento render
+		$app = $e->getParam('application');
 		$app->getEventManager()->attach('render', array($this, 'registerMyStrategy'), 100);
 	}
 
-	public function registerMyStratety(MvcEvent $e)
+	public function registerMyStrategy(MvcEvent $e)
 	{
 		$app = $e->getTarget();
 		$locator = $app->getServiceManager();
@@ -117,5 +156,5 @@ class Module implements ConfigProviderInterface,
 
 		//Anexar estratégia, que é um agregado de escuta, de alta prioridade
 		$view->getEventManager()->attach($myStrategy, 100);
-	}
+	}*/
 }

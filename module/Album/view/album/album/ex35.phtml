@@ -1,0 +1,20 @@
+<?php
+
+$data = array(
+	'Maria',
+	'Joao',
+	'Pedro',
+	'Ana',
+	'Paulo'
+);
+
+$this->placeholder('foo')->exchangeArray($data);
+
+$this->placeholder('foo')->setPrefix("<ul>\n 	<li>")
+						 ->setSeparator("</li><li>\n")
+						 ->setIndent(4)
+						 ->setPostfix("</li></ul>\n");
+
+
+
+echo $this->placeholder('foo');
