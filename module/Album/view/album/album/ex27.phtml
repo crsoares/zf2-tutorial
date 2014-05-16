@@ -1,0 +1,8 @@
+<?php $this->headScript()->captureStart() ?>
+	var action = '<?php echo $this->baseUrl ?>';
+	$('body').on('click', '.container', function(){
+		alert('teste teste');
+	});
+<?php $this->headScript()->captureEnd() ?>
+
+<?php echo $this->headScript(); ?>

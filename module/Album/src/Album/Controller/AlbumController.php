@@ -384,4 +384,19 @@ class AlbumController extends AbstractActionController
 	{
 		return new ViewModel();
 	}
+
+	public function ex26Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex27Action()
+	{
+		return new ViewModel();
+	}
+
+	public function ex28Action()
+	{
+		return new ViewModel();
+	}
 }

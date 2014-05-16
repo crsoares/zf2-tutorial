@@ -7,6 +7,10 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Mvc\MvcEvent;
+use Zend\View\Strategy\PhpRendererStrategy;
+
+use Album\View\Renderer\MyRenderer;
 
 use Album\Model\Album;
 use Album\Model\AlbumTable;
@@ -15,7 +19,7 @@ class Module implements ConfigProviderInterface,
 						/*AutoloaderProviderInterface,*/
 						ServiceProviderInterface
 {
-	public function onBootstrap($e)
+	/*public function onBootstrap($e)
 	{
 		//Registrar um evento expedição
 		$app = $e->getParam('application');
@@ -24,7 +28,7 @@ class Module implements ConfigProviderInterface,
 		$event = $e->getApplication();
 		//print_r($e->getApplication());die;
 		$event->getEventManager()->attach('render', array($this, 'registerJsonStrategy'), 100);
-	}
+	}*/
 
 	public function setLayout($e)
 	{
@@ -80,8 +84,38 @@ class Module implements ConfigProviderInterface,
 					$resultSetPrototype = new ResultSet();
 					$resultSetPrototype->setArrayObjectPrototype(new Album());
 					return new TableGateway('album', $dbAdapter, null, $resultSetPrototype);
+				},
+				//Registrar nosso processador personalizado no gerenciador de serviços
+				'MyCustomRenderer' => function($serviceManager) {
+					$myRenderer = new MyRenderer('ISO-8859-1');
+					return $myRenderer;
+				},
+				'MyCustomStrategy' => function($serviceManager) {
+					//Como dito antes, nós só queremos implementar o método) getEncoding (, para que possamos usar
+					//Zend\View\Strategy\PhpRendererStrategy e apenas fornecer nosso renderizador personalizado para ele.
+					$myRenderer = $serviceManager->get('MyCustomRenderer');
+					$strategy = PhpRendererStrategy($myRenderer);
+					return $strategy;
 				}
 			)
 		);
+	}
+
+	public function onBootstrap(MvcEvent $e)
+	{
+		//Registrar um evento render
+		$app = $e->getParam('application');
+		$app->getEventManager()->attach('render', array($this, 'registerMyStrategy'), 100);
+	}
+
+	public function registerMyStratety(MvcEvent $e)
+	{
+		$app = $e->getTarget();
+		$locator = $app->getServiceManager();
+		$view = $locator->get('Zend\View\View');
+		$myStrategy = $locator->get('MyCustomStrategy');
+
+		//Anexar estratégia, que é um agregado de escuta, de alta prioridade
+		$view->getEventManager()->attach($myStrategy, 100);
 	}
 }

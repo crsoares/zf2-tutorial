@@ -1,0 +1,7 @@
+<?php
+
+$this->headScript()->offsetSetFile(100, '/js/bootstrap.min.js');
+$this->headScript()->appendFile('/js/jquery.min.js');
+$this->headScript()->prependFile('/js/respond.min.js');
+
+echo $this->headScript();
