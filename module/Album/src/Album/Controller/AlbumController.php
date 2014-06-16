@@ -37,11 +37,12 @@ class AlbumController extends AbstractActionController
 		        'name' => 'filesystem', 
 		        'options' => array( 
 		            'ttl'       => 720000,    // cache with 200 hours 
-		            //'cache_dir' => getcwd() . '/data/cache', 
+		            'cache_dir' => getcwd() . '/data/cache', 
 		        ), 
 		    ), 
 		    'plugins' => array( 
-		        'exception_handler' => array('throw_exceptions' => false), 
+		        //'exception_handler' => array('throw_exceptions' => false),
+		        'serializer' 
 		    ), 
 		));
 

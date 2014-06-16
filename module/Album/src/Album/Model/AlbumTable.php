@@ -23,8 +23,10 @@ class AlbumTable
 			//criar um novo objeto Select para o álbum de mesa
 			$select = new Select('album');
 			//criar um novo conjunto de resultados com base na entidade Album
-			$resultSetPrototype = new ResultSet();
-			$resultSetPrototype->setArrayObjectPrototype(new Album());
+			$resultSetPrototype = new ResultSet(ResultSet::TYPE_ARRAY, new Album());
+			//$resultSetPrototype->setArrayObjectPrototype(new Album());
+			$resultSetPrototype->buffer();
+			//$resultSetPrototype->next();	
 			//criar um novo objeto adaptador paginação
 			$paginatorAdapter = new DbSelect(
 				//nosso seleto objeto configurado

@@ -1,5 +1,7 @@
 <?php
-
+/*echo __DIR__ . '<br />';
+echo dirname(__DIR__) . '<br />';
+echo getcwd();die;*/
 /* 
  * Mostrar todos os erros quando APPLICATION_ENV é desenvolvimento.
  */
